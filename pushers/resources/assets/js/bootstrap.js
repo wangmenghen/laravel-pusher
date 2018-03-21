@@ -45,8 +45,8 @@ if (token) {
 // 1111
 import Echo from 'laravel-echo'
 import userinfo from '../js/api/getUserInfo'
-
-window.Pusher = require('pusher-js');
+window.io = require('socket.io-client')
+// window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
@@ -56,27 +56,44 @@ window.Pusher = require('pusher-js');
 // });
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: 'http://localhost:6001'
+    host: 'https://pushers.test:2053'
 });
-window.Echo.channel('rmz')
-    .listen('.rmz-event', function (data) {
-        console.log('data');
-        console.log(data);
-    });
-window.Echo.channel('chat-room.1')
-    .listen('.login', function (data) {
-        console.log(data.user, data.chatMessage);
-    });
+// window.Echo.channel('rmz')
+//     .listen('.rmz-event', function (data) {
+//         console.log('data');
+//         console.log(data);
+//     });
+// window.Echo.channel('chat-room.1')
+//     .listen('.login', function (data) {
+//         console.log(data.user, data.chatMessage);
+//     });
 let userId;
 userinfo().then((data)=>{
     console.log(data.data.user.id);
     userId = data.data.user.id;
+    window.Echo.private(`notice.user.${userId}`)
+    .listen('PushPersonalNotice', (e) => {
+      console.log(e)
+    })
 });
 
-window.Echo.private(`order.${userId}`)
-    .listen('.home', function (data) {
-        console.log('private');
-        console.log(data.user, data.chatMessage);
+// window.Echo.private('channel-name')
+//     .listen('Event', function (data) {
+//         console.log('private');
+//         console.log(data);
+//     });
+window.Echo.channel('notice')
+    .listen('PushNoticeToAllUsers', function (data) {
+        console.log(data);
     });
 
-
+async function testAsync() {
+    let res = await userinfo();
+    console.log('res', res.data.user.id)
+    let id = res.data.user.id;
+    window.Echo.private(`notice.user.${id}`)
+    .listen('PushPersonalNotice', (e) => {
+      console.log(e)
+    })
+}
+testAsync()

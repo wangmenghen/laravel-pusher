@@ -672,8 +672,11 @@ services:
         context: ./laravel-echo-server
       volumes:
         - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+        - ./laravel-echo-server/ssl:/var
       ports:
-        - "${LARAVEL_ECHO_SERVER_PORT}:6001"
+        - "${LARAVEL_ECHO_SERVER_PORT}:2053"
+      extra_hosts:
+        - "pushers.test:${DOCKER_HOST_IP}"
       links:
         - redis
       networks:

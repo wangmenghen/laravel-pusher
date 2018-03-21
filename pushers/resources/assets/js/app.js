@@ -36,3 +36,4 @@ require('./bootstrap');
 //         console.log('data');
 //         console.log(data);
 //     });
+console.log('22222222');

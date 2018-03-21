@@ -11,6 +11,10 @@
 |
 */
 
-Broadcast::channel('order.{$user->id}', function ($user) {
+Broadcast::channel('channel-name', function ($user) {
+    return true;
+});
+
+Broadcast::channel('notice.user.{id}', function ($user, $id) {
     return true;
 });

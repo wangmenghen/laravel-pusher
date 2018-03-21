@@ -13,7 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <!-- <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script> -->
+    <script src="//{{ Request::getHost() }}:2053/socket.io/socket.io.js"></script>
 </head>
 <body>
     <div id="app">

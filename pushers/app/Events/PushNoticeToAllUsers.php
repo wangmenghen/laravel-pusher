@@ -9,8 +9,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Log;
 
-class Event implements ShouldBroadcast
+class PushNoticeToAllUsers implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $message;
@@ -27,10 +28,21 @@ class Event implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        Log::info("on broadcast");
+        return ['notice'];
+    }
+
+    public function broadcastAt()
+    {
+        return 'all-notice';
+    }
+
+    public function broadcastWith()
+    {
+        return ['message' => $this->message];
     }
 }

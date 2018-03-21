@@ -21,7 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/tester1', function () {
     event(new \App\Events\tester1('This is a public attribute', '2', 'This is a private attribute', 'This is a protected attribute'));
-    event(new \App\Events\Pusher('test'));
+    event(new \App\Events\Event('hello test private'));
+    event(new \App\Events\PushNoticeToAllUsers('hello'));
     return 'This is a Laravel Broadcaster Test, and private/protected attribute is not fired!';
 });
 
